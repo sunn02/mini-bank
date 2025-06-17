@@ -1,0 +1,5 @@
+<form #editClientForm="ngForm" (ngSubmit)="editClient()" class="form">
+    <input type="text" pInputText [(ngModel)]="nameToUpdate" name="nameToUpdate" placeholder="Name">
+    <input type="text" pInputText [(ngModel)]="documentToUpdate" name="documentToUpdate" placeholder="Document">
+    <button type="submit" pButton label="Editar"></button>
+</form>

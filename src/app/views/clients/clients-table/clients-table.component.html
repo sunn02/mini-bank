@@ -1,0 +1,24 @@
+<!-- Encabezado -->
+<p-table [value]="clients">
+    <ng-template #header>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Documento</th>
+            <th>Accion</th>
+        </tr>
+    </ng-template>
+
+<!-- Datos -->
+    <ng-template #body let-client>
+        <tr>
+            <td>{{ client.id }}</td>
+            <td>{{ client.name }}</td>
+            <td>{{ client.document }}</td>
+            <td> 
+                <button type="button" (click)="showEditDialog(client)" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
+                <button type="button" (click)="deleteClient(client.id!)" pButton icon="pi pi-trash" class="p-button-rounded p-button-text"></button> 
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
