@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './portals/home/home.component';
-import { ClientsComponent } from './views/clients/clients.component';
+import { ClientsComponent } from './mods/clients/pages/clients-page/clients.component';
 import { LoginComponent } from './portals/login/login.component';
 import { DashboardComponent } from './portals/home/components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
