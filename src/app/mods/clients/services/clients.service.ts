@@ -25,14 +25,19 @@ export class ClientsService {
 
   updateClient(updatedClient: Client) {
     const index = this.clients.findIndex(c => c.id === updatedClient.id);
+    console.log(index);
     if (index !== -1) {
       this.clients[index] = updatedClient;
     }
   }
 
-  deleteClient(id: number) {
-    this.clients = this.clients.filter(c => c.id !== id);
+  deleteClient(client: Client) {
+    const index = this.clients.findIndex(c => c.id === client.id);
+    if (index !== -1) {
+      this.clients.splice(index, 1);
+    }
   }
+
 
 
   private generateId(): number {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
@@ -10,7 +10,7 @@ import { Client } from '../../../models/client.model';
   templateUrl: './edit-client-dialog.component.html',
   styleUrl: './edit-client-dialog.component.css'
 })
-export class EditClientDialogComponent {
+export class EditClientDialogComponent implements OnInit{
 
   constructor(private dialogConfig: DynamicDialogConfig, private ref: DynamicDialogRef<EditClientDialogComponent>) {}
 
