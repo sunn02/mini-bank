@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SHARED_PRIMENG_MODULES } from '../../../shared/shared-primeng';
 import { MenuItem } from 'primeng/api';
+import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 
 @Component({
   selector: 'app-sidebar',

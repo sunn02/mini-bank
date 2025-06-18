@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './views/home/home.component';
+import { HomeComponent } from './portals/home/home.component';
 import { ClientsComponent } from './views/clients/clients.component';
-import { LoginComponent } from './views/login/login.component';
-import { DashboardComponent } from './views/home/dashboard/dashboard.component';
+import { LoginComponent } from './portals/login/login.component';
+import { DashboardComponent } from './portals/home/components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
 
 // canActivate: [authGuard] agregar
