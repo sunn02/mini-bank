@@ -1,8 +1,8 @@
 import { Component, numberAttribute } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ClientsService } from '../../../../services/clients.service';
-import { Client } from '../../../../models/client.model';
-import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
+import { ClientsService } from '../../../services/clients.service';
+import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
+import { Client } from '../../../models/client.model';
 
 
 @Component({

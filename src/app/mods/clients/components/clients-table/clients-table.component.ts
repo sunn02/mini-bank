@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditClientDialogComponent } from '../clients-dialogs/edit-client-dialog/edit-client-dialog.component';
-import { ClientsService } from '../../../services/clients.service';
-import { Client } from '../../../models/client.model';
-import { SHARED_PRIMENG_MODULES } from '../../../shared/shared-primeng';
+import { Client } from '../../models/client.model';
+import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
+import { ClientsService } from '../../services/clients.service';
 
 
 @Component({
@@ -64,7 +64,6 @@ export class ClientsTableComponent {
   deleteClient(id: number){
     this.clientService.deleteClient(id);
     console.log(`Se elimino ${id}`);
-    this.getUsers();
   }
 
 

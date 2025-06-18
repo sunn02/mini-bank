@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ClientsTableComponent } from './clients-table/clients-table.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { NewClientDialogComponent } from './clients-dialogs/new-client-dialog/new-client-dialog.component';
 import { SHARED_PRIMENG_MODULES } from '../../shared/shared-primeng';
+import { NewClientDialogComponent } from '../../mods/clients/components/clients-dialogs/new-client-dialog/new-client-dialog.component';
+import { ClientsTableComponent } from '../../mods/clients/components/clients-table/clients-table.component';
 
 @Component({
   selector: 'app-clients',
