@@ -12,7 +12,7 @@ import { Client } from '../../../models/client.model';
 })
 export class EditClientDialogComponent {
 
-  constructor(private dialogConfig: DynamicDialogConfig, public ref: DynamicDialogRef) {}
+  constructor(private dialogConfig: DynamicDialogConfig, private ref: DynamicDialogRef<EditClientDialogComponent>) {}
 
 
   nameToUpdate: string = '';
@@ -29,6 +29,7 @@ export class EditClientDialogComponent {
       document: this.documentToUpdate,
     }
     console.log(updatedClient);
+    
     this.ref.close(updatedClient);
   }
   

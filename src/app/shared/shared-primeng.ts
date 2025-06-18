@@ -6,6 +6,8 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { MenuModule } from 'primeng/menu';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 export const SHARED_PRIMENG_MODULES = [
     ButtonModule,
@@ -15,4 +17,6 @@ export const SHARED_PRIMENG_MODULES = [
     InputTextModule,
     CardModule,
     MenuModule,
+    ToastModule,
+    ConfirmDialog
 ];

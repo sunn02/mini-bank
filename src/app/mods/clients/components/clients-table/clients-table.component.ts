@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EditClientDialogComponent } from '../clients-dialogs/edit-client-dialog/edit-client-dialog.component';
 import { Client } from '../../models/client.model';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 import { ClientsService } from '../../services/clients.service';
+import { ListEvent } from '../../../../shared/utils';
 
 
 @Component({
@@ -18,7 +18,7 @@ import { ClientsService } from '../../services/clients.service';
 export class ClientsTableComponent {
 
   ref: DynamicDialogRef | undefined;
-  constructor(private dialogService: DialogService, private clientService: ClientsService) {}
+  constructor() {}
 
 
   _list: Client[] = []; /* Creamos una lista unica de este componente, lo hacemos para no afectar el original
@@ -37,33 +37,28 @@ export class ClientsTableComponent {
   }
 
 
-
-  /*  Cambiar aqui !! 
-    Para que table component solo muestre la lista y responda a los eventos de los botones */ 
-
-  showEditDialog(client: Client) {
-    this.ref = this.dialogService.open(EditClientDialogComponent, {
-      data: {
-        id: client.id,
-      },
-      header: 'Editar Cliente',
-      closable: true,
-      modal: true,
-    });
+  @Output() action = new EventEmitter<ListEvent>(); // Definimos que tipo de evento enviaremos al padre, la lista de eventos lo defininimos como tipo y valor
 
 
-    this.ref.onClose.subscribe( (updatedClient: Client | undefined) => {
-
-      if ( updatedClient ) {
-          this.clientService.updateClient(updatedClient);
+  emitEvent(eventType: string, client: any){
+  this.action.emit(
+      {
+        type: eventType,
+        value: client
       }
-    })
-    
+    );
   }
 
-  deleteClient(id: number){
-    this.clientService.deleteClient(id);
-    console.log(`Se elimino ${id}`);
+  onRowClick(client: any){
+    this.emitEvent('selected', client);
+  }
+
+  onEdit(client: any){
+    this.emitEvent('edit', client);
+  }
+
+  onDelete(client: any){
+    this.emitEvent('delete', client);
   }
 
 

@@ -11,13 +11,13 @@
 
 <!-- Datos -->
     <ng-template #body let-client>
-        <tr>
+        <tr [pSelectableRow]="client" (click)="onRowClick(client)">
             <td>{{ client.id }}</td>
             <td>{{ client.name }}</td>
             <td>{{ client.document }}</td>
             <td> 
-                <button type="button" (click)="showEditDialog(client)" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
-                <button type="button" (click)="deleteClient(client.id!)" pButton icon="pi pi-trash" class="p-button-rounded p-button-text"></button> 
+                <button type="button" (click)="onEdit(client)" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
+                <button type="button" (click)="onDelete(client)" pButton icon="pi pi-trash" class="p-button-rounded p-button-text"></button> 
             </td>
         </tr>
     </ng-template>
