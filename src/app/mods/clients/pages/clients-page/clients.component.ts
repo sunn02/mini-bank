@@ -91,7 +91,7 @@ export class ClientsComponent implements OnInit { // Utilizamos el ciclo de comp
         },
 
         accept: () => {
-            this.clientService.deleteClient(client.id!);
+            this.clientService.deleteClient(client);
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Client deleted' });
         },
         reject: () => {
@@ -110,7 +110,9 @@ export class ClientsComponent implements OnInit { // Utilizamos el ciclo de comp
     });
 
     this.ref.onClose.subscribe( (newClient : Client) => {
-      this.clientService.addClient(newClient);
+      if (newClient) {
+        this.clientService.addClient(newClient);
+      }
     })
   }
 
