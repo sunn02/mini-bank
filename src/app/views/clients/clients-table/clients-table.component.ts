@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditClientDialogComponent } from '../clients-dialogs/edit-client-dialog/edit-client-dialog.component';
 import { ClientsService } from '../../../services/clients.service';
@@ -21,13 +21,25 @@ export class ClientsTableComponent {
   constructor(private dialogService: DialogService, private clientService: ClientsService) {}
 
 
-  clients: Client[] = []; 
+  _list: Client[] = []; /* Creamos una lista unica de este componente, lo hacemos para no afectar el original
 
-  getUsers(){
-    this.clients = this.clientService.getClients();
+
+  /*
+  Utilizamos @Input() para que este componente solo tenga la responsabilidad 
+  de renderizar la lista. @Input() permite recibir datos desde el componente padre,
+  que es donde haremos la comunicación con la API.
+  */
+
+  @Input() set list(list: Client[]) { 
+    /* Set nos permite reaccionar cuando el valor recibido del padre cambia, ya sea un nuevo cliente o edicion 
+    Asi, nos permite copiar la lista original y almacenarla al duplicado */
+    this._list = list;
   }
 
 
+
+  /*  Cambiar aqui !! 
+    Para que table component solo muestre la lista y responda a los eventos de los botones */ 
 
   showEditDialog(client: Client) {
     this.ref = this.dialogService.open(EditClientDialogComponent, {
@@ -44,7 +56,6 @@ export class ClientsTableComponent {
 
       if ( updatedClient ) {
           this.clientService.updateClient(updatedClient);
-          this.getUsers();
       }
     })
     
@@ -56,10 +67,5 @@ export class ClientsTableComponent {
     this.getUsers();
   }
 
-
-
-  ngOnInit(){
-    this.getUsers();
-  }
 
 }
