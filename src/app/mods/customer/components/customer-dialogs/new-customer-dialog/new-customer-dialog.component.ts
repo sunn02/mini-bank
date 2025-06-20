@@ -1,32 +1,32 @@
 import { Component, numberAttribute } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
-import { Client } from '../../../models/client.model';
+import { Customer } from '../../../models/customer.model';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 
 @Component({
   imports: [FormsModule, SHARED_PRIMENG_MODULES],
-  selector: 'app-new-client-dialog',
-  templateUrl: './new-client-dialog.component.html',
-  styleUrl: './new-client-dialog.component.css',
+  selector: 'app-new-Customer-dialog',
+  templateUrl: './new-customer-dialog.component.html',
+  styleUrl: './new-customer-dialog.component.css',
 })
-export class NewClientDialogComponent{
+export class NewCustomerDialogComponent{
 
   newName: string = '';
   newDoc: string = '';
 
   constructor (public ref: DynamicDialogRef) {};
 
-  createClient(){
-    const newClient: Client = {
+  createCustomer(){
+    const newCustomer: Customer = {
       name: this.newName,
       document: this.newDoc
     };  
     
-    console.log(newClient);
+    console.log(newCustomer);
 
-    this.ref.close(newClient);
+    this.ref.close(newCustomer);
 
   }
 

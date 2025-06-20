@@ -1,27 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Client } from '../../models/client.model';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Customer } from '../../models/customer.model';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
-import { ClientsService } from '../../services/clients.service';
 import { ListEvent } from '../../../../shared/utils';
 
 
 @Component({
-  selector: 'app-clients-table',
+  selector: 'app-customers-table',
   imports: [CommonModule, SHARED_PRIMENG_MODULES],
-  templateUrl: './clients-table.component.html',
-  styleUrl: './clients-table.component.css',
+  templateUrl: './customer-table.component.html',
+  styleUrl: './customer-table.component.css',
 })
 
 
-export class ClientsTableComponent {
+export class CustomersTableComponent {
 
   ref: DynamicDialogRef | undefined;
   constructor() {}
 
 
-  _list: Client[] = []; /* Creamos una lista unica de este componente, lo hacemos para no afectar el original
+  _list: Customer[] = []; /* Creamos una lista unica de este componente, lo hacemos para no afectar el original
 
 
   /*
@@ -30,8 +29,8 @@ export class ClientsTableComponent {
   que es donde haremos la comunicación con la API.
   */
 
-  @Input() set list(list: Client[]) { 
-    /* Set nos permite reaccionar cuando el valor recibido del padre cambia, ya sea un nuevo cliente o edicion 
+  @Input() set list(list: Customer[]) { 
+    /* Set nos permite reaccionar cuando el valor recibido del padre cambia, ya sea un nuevo Customere o edicion 
     Asi, nos permite copiar la lista original y almacenarla al duplicado */
     this._list = list;
   }
@@ -40,25 +39,25 @@ export class ClientsTableComponent {
   @Output() action = new EventEmitter<ListEvent>(); // Definimos que tipo de evento enviaremos al padre, la lista de eventos lo defininimos como tipo y valor
 
 
-  emitEvent(eventType: string, client: any){
+  emitEvent(eventType: string, Customer: any){
   this.action.emit(
       {
         type: eventType,
-        value: client
+        value: Customer
       }
     );
   }
 
-  onRowClick(client: any){
-    this.emitEvent('selected', client);
+  onRowClick(Customer: any){
+    this.emitEvent('selected', Customer);
   }
 
-  onEdit(client: any){
-    this.emitEvent('edit', client);
+  onEdit(Customer: any){
+    this.emitEvent('edit', Customer);
   }
 
-  onDelete(client: any){
-    this.emitEvent('delete', client);
+  onDelete(Customer: any){
+    this.emitEvent('delete', Customer);
   }
 
 

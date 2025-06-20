@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
-import { Client } from '../../../models/client.model';
+import { Customer } from '../../../models/customer.model';
 
 @Component({
-  selector: 'app-edit-client-dialog',
+  selector: 'app-edit-customer-dialog',
   imports: [FormsModule, SHARED_PRIMENG_MODULES],
-  templateUrl: './edit-client-dialog.component.html',
-  styleUrl: './edit-client-dialog.component.css'
+  templateUrl: './edit-customer-dialog.component.html',
+  styleUrl: './edit-customer-dialog.component.css'
 })
-export class EditClientDialogComponent implements OnInit{
+export class EditCustomerDialogComponent implements OnInit{
 
-  constructor(private dialogConfig: DynamicDialogConfig, private ref: DynamicDialogRef<EditClientDialogComponent>) {}
+  constructor(private dialogConfig: DynamicDialogConfig, private ref: DynamicDialogRef<EditCustomerDialogComponent>) {}
 
 
   nameToUpdate: string = '';
@@ -21,16 +21,16 @@ export class EditClientDialogComponent implements OnInit{
 
 
 
-  editClient(){
+  editCustomer(){
     console.log(this.idToUpdate);
-    const updatedClient : Client = {
+    const updatedCustomer : Customer = {
       id: this.idToUpdate,
       name: this.nameToUpdate,
       document: this.documentToUpdate,
     }
-    console.log(updatedClient);
+    console.log(updatedCustomer);
     
-    this.ref.close(updatedClient);
+    this.ref.close(updatedCustomer);
   }
   
 
