@@ -30,8 +30,9 @@ export class CustomersTableComponent {
   */
 
   @Input() set list(list: Customer[]) { 
-    /* Set nos permite reaccionar cuando el valor recibido del padre cambia, ya sea un nuevo Customere o edicion 
+    /* Set nos permite reaccionar cuando el valor recibido del padre cambia, ya sea un nuevo Customer o una edicion de un customer 
     Asi, nos permite copiar la lista original y almacenarla al duplicado */
+    
     this._list = list;
   }
 

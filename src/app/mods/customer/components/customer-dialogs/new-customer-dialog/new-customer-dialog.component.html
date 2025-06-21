@@ -1,6 +1,11 @@
 
-<form #newUserForm="ngForm" (ngSubmit)="createCustomer()" class="form">
-    <input type="text" pInputText [(ngModel)]="newName" name="newName" placeholder="Name">
-    <input type="text" pInputText [(ngModel)]="newDoc" name="newDoc" placeholder="Document">
+<form #newUserForm="ngForm" (ngSubmit)="onAddDialog()" class="form">
+    <input type="text" pInputText [(ngModel)]="model.name" name="name" placeholder="Name">
+    <input type="text" pInputText [(ngModel)]="model.lastname" name="lastname" placeholder="Lastname">
+    <input type="text" pInputText [(ngModel)]="model.documentNumber" name="documentNumber" placeholder="Document Number">
+    <input type="text" pInputText [(ngModel)]="model.address" name="address" placeholder="Address">
+    <input type="email" pInputText [(ngModel)]="model.mail" name="mail" placeholder="Email">
+    <input type="text" pInputText [(ngModel)]="model.phone" name="phone" placeholder="Phone">
+    <input type="date" pInputText [(ngModel)]="model.birth" name="birth" placeholder="Birth">
     <button type="submit" pButton label="Agregar"></button>
 </form>
