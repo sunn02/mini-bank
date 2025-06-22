@@ -1,0 +1,27 @@
+<p-table [value]="_list" [rowHover]="true">
+    <ng-template #header>
+        <tr>
+            <th>ID</th>
+            <th>Bank Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+
+<!-- Datos -->
+    <ng-template #body let-bank>
+        <tr [pSelectableRow]="bank" (click)="onRowClick(bank)">
+            <td>{{ bank.id }}</td>
+            <td>{{ bank.name }}</td>
+            <td>{{ bank.address }}</td>
+            <td>{{ bank.mail }}</td>
+            <td>{{ bank.phone }}</td>
+            <td> 
+                <button type="button" (click)="onEdit(bank)" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
+                <button type="button" (click)="onDelete(bank)" pButton icon="pi pi-trash" class="p-button-rounded p-button-text"></button> 
+            </td> 
+        </tr>
+    </ng-template>
+</p-table>

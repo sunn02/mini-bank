@@ -1,0 +1,21 @@
+<form #newBankForm="ngForm" (ngSubmit)="save()" class="formgrid grid" style="max-width: 500px; margin: auto 0 auto">
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.name" name="name" placeholder="Bank Name" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.address" name="address" placeholder="Address" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="email" pInputText [(ngModel)]="model.mail" name="mail" placeholder="Email" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.phone" name="phone" placeholder="Phone" />
+    </div>
+    
+    <div class="field col-12 flex justify-content-center">
+        <button type="submit" pButton label="Save Bank" class="p-button-success"></button>
+    </div>
+</form>
