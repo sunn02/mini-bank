@@ -55,7 +55,7 @@ export class EditCustomerDialogComponent implements OnInit{
     ngOnInit() {
         this.customerToUpdate = this.dialogConfig.data.value;
         if (this.customerToUpdate) {
-            this.model = { ...this.customerToUpdate }; // Hacemos una copia para no modificar directo el objeto original
+            this.model = { ...this.customerToUpdate, bankId: this.customerToUpdate.bank.id }; // Hacemos una copia para no modificar directo el objeto original
         }
         
         this.getBanks();
