@@ -8,6 +8,7 @@ import { CardModule } from 'primeng/card';
 import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 export const SHARED_PRIMENG_MODULES = [
     ButtonModule,
@@ -18,5 +19,6 @@ export const SHARED_PRIMENG_MODULES = [
     CardModule,
     MenuModule,
     ToastModule,
-    ConfirmDialog
+    ConfirmDialog,
+    DropdownModule
 ];
