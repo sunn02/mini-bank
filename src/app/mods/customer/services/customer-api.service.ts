@@ -22,6 +22,14 @@ export class CustomerApiService {
     return this.http.post(this.apiUrl, newCustomer)
   }
 
+  deleteData(customer: Customer){
+    return this.http.delete(this.apiUrl + `/${customer.id}`);
+  }
+
+  updateData(updatedCustomer: Customer){
+    return this.http.put(this.apiUrl, updatedCustomer)
+  }
+
 }
 
 
