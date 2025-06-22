@@ -25,13 +25,18 @@ export class SidebarComponent {
     {
       label: 'Cuentas',
       icon: 'pi pi-wallet',
-      url: '/cuentas'  // usa href si es externo o no manejado por Angular Router
+      routerLink: ['/home/accounts']  
+    },
+        {
+      label: 'Bancos',
+      icon: 'pi pi-building-columns',
+      routerLink: ['/home/banks']
     },
     {
       label: 'Transferencias',
       icon: 'pi pi-send',
-      url: '/transferencias'
-    }
+      routerLink: ['/home']
+    },
   ];
 
 }
