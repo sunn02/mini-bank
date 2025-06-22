@@ -6,7 +6,13 @@
             <input type="password" pInputText [(ngModel)]="password" name="password" placeholder="Password">
           
             
-          <button type="submit" pButton label="Login"></button>
+          <button type="submit" pButton class="p-button">Login</button>
+
+      
+          @if(error){
+            <p style="color: red">{{ error }}</p>
+            }
+
         </form>
     </p-card>
   </div>

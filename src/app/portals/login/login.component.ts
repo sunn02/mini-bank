@@ -13,6 +13,7 @@ import { SHARED_PRIMENG_MODULES } from '../../shared/shared-primeng';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  error: string = '';
 
   constructor( private authService: AuthService, private router: Router) {}
 
@@ -22,7 +23,7 @@ export class LoginComponent {
     if (this.authService.isLoggedIn(this.username, this.password)) {
       this.router.navigate(['home']);
     } else {
-      console.log('No esta en el sistema');
+      this.error = 'Credenciales inválidas';
     }
   } 
 

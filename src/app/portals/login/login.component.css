@@ -21,9 +21,12 @@
     border-radius: 16px;
 }
 
+
 .form-container button {
-    margin-top: 20px; 
+    min-height: 40px;
+    min-width: 100px; 
 }
+
 
 
 
