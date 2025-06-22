@@ -5,10 +5,9 @@ import { NewCustomerDialogComponent } from '../../components/customer-dialogs/ne
 import { Customer } from '../../models/customer.model';
 import { ListEvent } from '../../../../shared/utils';
 import { ConfirmationService, MessageService } from 'primeng/api';
-// import { EditCustomerDialogComponent } from '../../components/customer-dialogs/edit-customer-dialog/edit-customer-dialog.component';
 import { CustomersTableComponent } from '../../components/customer-table/customer-table.component';
-// import { CustomersService } from '../../services/customer.service';
 import { CustomerApiService } from '../../services/customer-api.service';
+import { EditCustomerDialogComponent } from '../../components/customer-dialogs/edit-customer-dialog/edit-customer-dialog.component';
 
 @Component({
   selector: 'app-Customers',
@@ -16,7 +15,7 @@ import { CustomerApiService } from '../../services/customer-api.service';
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
 })
-export class CustomersComponent implements OnInit { // Utilizamos el ciclo de componentes para iniciar la vista con los datos que queremos traer aqui
+export class CustomersComponent implements OnInit { 
   
   customers: Customer[] = []; 
 
@@ -58,12 +57,12 @@ export class CustomersComponent implements OnInit { // Utilizamos el ciclo de co
           {summary: `Usuario seleccionado: ${event.value.name}`}
         )
         break;
-      // case 'edit':
-      //   this.onEdit(event.value);
-      //   break;
-      // case 'delete':
-      //   this.onDelete(event.value);
-      //   break
+      case 'edit':
+        this.onEdit(event.value);
+        break;
+      case 'delete':
+        this.onDelete(event.value);
+        break
       default:
         break;
     }
@@ -78,52 +77,65 @@ export class CustomersComponent implements OnInit { // Utilizamos el ciclo de co
       closable: true,
       modal: true,
     });
+
+
+    this.ref.onClose.subscribe(
+      (newCustomer: Customer) => {
+        if (newCustomer) {
+          console.log(newCustomer);
+        }
+      }
+    )
   }
 
 
-//   onEdit(Customer: Customer){
-//     this.ref = this.dialogService.open(EditCustomerDialogComponent, {
-//       data: {
-//         id: Customer.id,
-//       },
-//       header: 'Editar Customere',
-//       closable: true,
-//       modal: true,
-//     });
+  onEdit(customer: Customer){
+    this.ref = this.dialogService.open(EditCustomerDialogComponent, {
+      data: {
+        value: customer,
+      },
+      header: 'Editar Cliente',
+      closable: true,
+      modal: true,
+    });
 
-//     this.ref.onClose.subscribe( (updatedCustomer: Customer | undefined) => {
-//       if ( updatedCustomer ) {
-//           this.customerService.updateCustomer(updatedCustomer);
-//       }
-//     })
-//   }
+    this.ref.onClose.subscribe( (updatedCustomer: Customer | undefined) => {
+      if ( updatedCustomer ) {
+        console.log(updatedCustomer);
+        this.fetchData();
+      }
+    })
+  }
 
 
-//   onDelete(Customer: Customer) {
-//     this.confirmationService.confirm({
-//         message: 'Do you want to delete this Customer?',
-//         header: 'Danger Zone',
-//         icon: 'pi pi-info-circle',
-//         rejectLabel: 'Cancel',
-//         rejectButtonProps: {
-//             label: 'Cancel',
-//             severity: 'secondary',
-//             outlined: true,
-//         },
-//         acceptButtonProps: {
-//             label: 'Delete',
-//             severity: 'danger',
-//         },
+  onDelete(customer: Customer) {
+    this.confirmationService.confirm({
+        message: 'Do you want to delete this Customer?',
+        header: 'Danger Zone',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancel',
+        rejectButtonProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptButtonProps: {
+            label: 'Delete',
+            severity: 'danger',
+        },
 
-//         accept: () => {
-//             this.customerService.deleteCustomer(Customer);
-//             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
-//         },
-//         reject: () => {
-//             this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-//         },
-//     });
-// }
+        accept: () => {
+            this.apiService.deleteData(customer).subscribe({
+                next: () => { console.log(`Se elimino: ${customer.id}`)},
+                error: () => { console.error() }
+            });
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        },
+    });
+}
 
 
 
