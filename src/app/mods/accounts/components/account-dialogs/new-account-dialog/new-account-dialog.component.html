@@ -1,0 +1,78 @@
+<form #accountForm="ngForm" (ngSubmit)="save()" class="formgrid grid" style="max-width: 600px; margin: auto">
+
+    <!-- Titular -->
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.holder" name="holder" placeholder="Titular" />
+    </div>
+
+    <!-- Número de cuenta -->
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.number" name="number" placeholder="Account Number" />
+    </div>
+
+    <!-- Tipo de cuenta -->
+    <div class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="accountTypes"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select account type"
+        [(ngModel)]="model.type"
+        name="type">
+        </p-dropdown>
+    </div>
+
+    <!-- Moneda -->
+    <div class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="currencies"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select currency"
+        [(ngModel)]="model.currencyId"
+        name="currencyId">
+        </p-dropdown>
+    </div>
+
+    <!-- Cliente -->
+    <div class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="customers"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select customer"
+        [(ngModel)]="model.customerId"
+        name="customerId">
+        </p-dropdown>
+    </div>
+
+    <!-- Datos de cuenta de ahorro (solo si type === 0) -->
+    <div *ngIf="model.type === 0" class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="savingTypes"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Saving Type"
+        [(ngModel)]="model.createSavingAccount.savingType"
+        name="savingType">
+        </p-dropdown>
+    </div>
+
+    <!-- Datos de cuenta corriente (solo si type === 1) -->
+    <div *ngIf="model.type === 1" class="col-12">
+        <div class="field col-12 md:col-6">
+        <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.operationalLimit" name="operationalLimit" placeholder="Operational Limit" />
+        </div>
+        <div class="field col-12 md:col-6">
+        <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.monthAverage" name="monthAverage" placeholder="Monthly Average" />
+        </div>
+        <div class="field col-12 md:col-6">
+        <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.interest" name="interest" placeholder="Interest (%)" />
+        </div>
+    </div>
+
+    <!-- Botón -->
+    <div class="field col-12 flex justify-content-center">
+        <button type="submit" pButton label="Guardar Cuenta" class="p-button-success"></button>
+    </div>
+</form>

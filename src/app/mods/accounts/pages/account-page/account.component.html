@@ -1,0 +1,10 @@
+<div class="client-content">
+    <button type="button" (click)="onAdd()" pButton label="Agregar cuenta" icon="pi pi-plus"></button>
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+    <app-account-table [list]="accounts" (action)="onListAction($event)"></app-account-table> 
+    <!-- Aqui pasamos la propiedad del dato que este componente padre quiere pasar al hijo a traves del @Input, en este caso una lista -->
+</div>
+
+<!-- (click)="onAdd()" -->
+<!-- (action)="onListAction($event)" -->

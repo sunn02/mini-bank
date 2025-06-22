@@ -1,0 +1,13 @@
+
+
+.client-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.client-content button {
+    align-self: flex-end;
+}
+
