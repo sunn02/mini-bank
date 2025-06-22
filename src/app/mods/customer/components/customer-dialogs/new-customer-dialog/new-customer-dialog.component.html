@@ -1,11 +1,49 @@
+    <form #newUserForm="ngForm" (ngSubmit)="save()" class="formgrid grid" style="max-width: 500px; margin: auto 0 auto">
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.name" name="name" placeholder="Name" />
+    </div>
 
-<form #newUserForm="ngForm" (ngSubmit)="onAddDialog()" class="form">
-    <input type="text" pInputText [(ngModel)]="model.name" name="name" placeholder="Name">
-    <input type="text" pInputText [(ngModel)]="model.lastname" name="lastname" placeholder="Lastname">
-    <input type="text" pInputText [(ngModel)]="model.documentNumber" name="documentNumber" placeholder="Document Number">
-    <input type="text" pInputText [(ngModel)]="model.address" name="address" placeholder="Address">
-    <input type="email" pInputText [(ngModel)]="model.mail" name="mail" placeholder="Email">
-    <input type="text" pInputText [(ngModel)]="model.phone" name="phone" placeholder="Phone">
-    <input type="date" pInputText [(ngModel)]="model.birth" name="birth" placeholder="Birth">
-    <button type="submit" pButton label="Agregar"></button>
-</form>
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.lastname" name="lastname" placeholder="Lastname" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.documentNumber" name="documentNumber" placeholder="Document Number" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.address" name="address" placeholder="Address" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="email" pInputText [(ngModel)]="model.mail" name="mail" placeholder="Email" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="text" pInputText [(ngModel)]="model.phone" name="phone" placeholder="Phone" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <input type="text"  class="textbox-n" onfocus="(this.type='date')" onblur="(this.type='text')" pInputText [(ngModel)]="model.birth" name="birth" placeholder="Birth" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="banks"
+        placeholder="Select a bank"
+        optionLabel="name"
+        optionValue="id"
+        [(ngModel)]="model.bankId"
+        name="bankId"
+        appendTo="body"
+        >
+        
+    </p-dropdown>
+
+    </div>
+    
+    <div class="field col-12 flex justify-content-center">
+        <button type="submit" pButton label="Agregar" class="p-button-success"></button>
+    </div>
+
+    </form>
