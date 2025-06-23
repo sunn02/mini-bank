@@ -74,6 +74,7 @@ export class BanksComponent implements OnInit {
       (newBank: Bank) => {
         if (newBank) {
           console.log(newBank);
+          this.fetchData();
         }
       }
     )
@@ -120,6 +121,7 @@ export class BanksComponent implements OnInit {
                 next: () => { console.log(`Se elimino: ${bank.id}`)},
                 error: () => { console.error() }
             });
+            this.fetchData();
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
         },
         reject: () => {

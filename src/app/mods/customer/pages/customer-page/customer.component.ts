@@ -83,6 +83,7 @@ export class CustomersComponent implements OnInit {
       (newCustomer: Customer) => {
         if (newCustomer) {
           console.log(newCustomer);
+          this.fetchData();
         }
       }
     )
@@ -129,7 +130,9 @@ export class CustomersComponent implements OnInit {
                 next: () => { console.log(`Se elimino: ${customer.id}`)},
                 error: () => { console.error() }
             });
+            this.fetchData();
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
+
         },
         reject: () => {
             this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });

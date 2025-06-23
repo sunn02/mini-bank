@@ -35,19 +35,11 @@ export class AccountsComponent implements OnInit {
   fetchData(){
     this.apiService.getData().subscribe(
       { 
-        next: data => { this.accounts = <Account[]>data} // Especificamos el tipo de dato que esperamos recibir como respuesta De la solicitud HTTP
+        next: data => { this.accounts = <Account[]>data} 
       }
       )
   } 
 
-
-    /* 
-    En este caso, en la tabla tendremos tres acciones que el usuario hara sobre cada item de la tabla:
-      - Seleccionar Customere - Editar Customere - Eliminar Customere
-    Cada click en uno de estos, desencadena alguna logica. Estos se llaman eventos.
-
-    Recibiremos el tipo de accion del hijo (tabla) y aqui nos encargaremos de recibir lo que el hijo ha emitido.
-  */
 
   onListAction(event: ListEvent) {
     switch (event.type) {
@@ -128,7 +120,7 @@ export class AccountsComponent implements OnInit {
                 next: () => { console.log(`Se elimino: ${account.id}`)},
                 error: () => { console.error() }
             });
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Account deleted' });
         },
         reject: () => {
             this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
