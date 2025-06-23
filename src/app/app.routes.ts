@@ -7,9 +7,8 @@ import { CustomersComponent } from './mods/customer/pages/customer-page/customer
 import { AccountsComponent } from './mods/accounts/pages/account-page/account.component';
 import { BanksComponent } from './mods/banks/pages/bank-page/bank.component';
 
-// canActivate: [authGuard] agregar
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent,
+  { path: 'home', component: HomeComponent, canActivate: [authGuard],
     
     children: [
       {
