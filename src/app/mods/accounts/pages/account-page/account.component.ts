@@ -6,127 +6,126 @@ import { Account } from '../../models/account.model';
 import { ListEvent } from '../../../../shared/utils';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AccountsTableComponent } from '../../components/account-table/account-table.component';
-import { CustomerApiService } from '../../services/account-api.service';
 import { EditAccountDialogComponent } from '../../components/account-dialogs/edit-account-dialog/edit-account-dialog.component';
+import { AppService } from '../../../../services/app.service';
 
 @Component({
-  selector: 'app-Customers',
-  imports: [AccountsTableComponent, SHARED_PRIMENG_MODULES],
-  templateUrl: './account.component.html',
-  styleUrl: './account.component.css',
+    selector: 'app-Customers',
+    imports: [AccountsTableComponent, SHARED_PRIMENG_MODULES],
+    templateUrl: './account.component.html',
+    styleUrl: './account.component.css',
 })
 export class AccountsComponent implements OnInit { 
-  
-  accounts: Account[] = []; 
+    
+    accounts: Account[] = []; 
 
-  ref: DynamicDialogRef | undefined;
+    ref: DynamicDialogRef | undefined;
 
-  constructor(private dialogService: DialogService, 
-              private messageService: MessageService, 
-              private confirmationService: ConfirmationService,
-              private apiService: CustomerApiService) {}
-
-
-  ngOnInit() {
-    this.fetchData();
-  } 
+    constructor(private dialogService: DialogService, 
+            private messageService: MessageService, 
+            private confirmationService: ConfirmationService,
+            private appService: AppService) {}
 
 
-  fetchData(){
-    this.apiService.getData().subscribe(
-      { 
-        next: data => { this.accounts = <Account[]>data} 
-      }
-      )
-  } 
+    ngOnInit() {
+        this.loadAccounts();
+    } 
 
 
-  onListAction(event: ListEvent) {
-    switch (event.type) {
-      case 'selected':
-        this.messageService.add(
-          {summary: `Cuenta seleccionado: ${event.value.name}`}
-        )
-        break;
-      case 'edit':
-        this.onEdit(event.value);
-        break;
-      case 'delete':
-        this.onDelete(event.value);
-        break
-      default:
-        break;
+    loadAccounts(){
+        this.appService.accountApiService.getAccounts();
+    } 
+
+
+    onListAction(event: ListEvent) {
+        switch (event.type) {
+        case 'selected':
+            this.messageService.add(
+            {summary: `Cuenta seleccionado: ${event.value.name}`}
+            )
+            break;
+        case 'edit':
+            this.onEdit(event.value);
+            break;
+        case 'delete':
+            this.onDelete(event.value);
+            break
+        default:
+            break;
+        }
+
     }
 
-  }
 
 
+    onAdd() { 
+        this.ref = this.dialogService.open(NewAccountDialogComponent, {
+        header: 'Nueva Cuenta',
+        closable: true,
+        modal: true,
+        });
 
-  onAdd() { 
-    this.ref = this.dialogService.open(NewAccountDialogComponent, {
-      header: 'Nueva Cuenta',
-      closable: true,
-      modal: true,
-    });
 
-
-    this.ref.onClose.subscribe(
-      (newAccount: Account) => {
-        if (newAccount) {
-          console.log(newAccount);
+        this.ref.onClose.subscribe(
+        (newAccount: Account) => {
+            console.log('Resultado del diálogo:', newAccount);
+            if (newAccount) {
+            console.log(newAccount);
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer added' });
+            }
         }
-      }
-    )
-  }
+        )
+    }
 
 
-  onEdit(account: Account){
-    this.ref = this.dialogService.open(EditAccountDialogComponent, {
-      data: {
-        value: account,
-      },
-      header: 'Editar Cuenta',
-      closable: true,
-      modal: true,
-    });
-
-    this.ref.onClose.subscribe( (updatedAccount: Account | undefined) => {
-      if ( updatedAccount ) {
-        console.log(updatedAccount);
-        this.fetchData();
-      }
-    })
-  }
-
-
-  onDelete(account: Account) {
-    this.confirmationService.confirm({
-        message: 'Do you want to delete this Customer?',
-        header: 'Danger Zone',
-        icon: 'pi pi-info-circle',
-        rejectLabel: 'Cancel',
-        rejectButtonProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true,
+    onEdit(account: Account){
+        this.ref = this.dialogService.open(EditAccountDialogComponent, {
+        data: {
+            value: account,
         },
-        acceptButtonProps: {
-            label: 'Delete',
-            severity: 'danger',
-        },
+        header: 'Editar Cuenta',
+        closable: true,
+        modal: true,
+        });
 
-        accept: () => {
-            this.apiService.deleteData(account).subscribe({
-                next: () => { console.log(`Se elimino: ${account.id}`)},
-                error: () => { console.error() }
-            });
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Account deleted' });
-        },
-        reject: () => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-        },
-    });
-}
+        this.ref.onClose.subscribe( (updatedAccount: Account | undefined) => {
+        if ( updatedAccount ) {
+            console.log(updatedAccount);
+            this.loadAccounts();
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Accoun edited' });
+        }
+        })
+    }
+
+
+    onDelete(account: Account) {
+        this.confirmationService.confirm({
+            message: 'Do you want to delete this Customer?',
+            header: 'Danger Zone',
+            icon: 'pi pi-info-circle',
+            rejectLabel: 'Cancel',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true,
+            },
+            acceptButtonProps: {
+                label: 'Delete',
+                severity: 'danger',
+            },
+
+            accept: () => {
+                this.appService.accountApiService.deleteAccount(account).subscribe({
+                    next: () => { console.log(`Se elimino: ${account.id}`)},
+                    error: () => { console.error() }
+                });
+                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Account deleted' });
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            },
+        });
+    }
 
 
 

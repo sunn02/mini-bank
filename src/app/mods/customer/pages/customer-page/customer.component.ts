@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
-import { NewCustomerDialogComponent } from '../../components/customer-dialogs/new-customer-dialog/new-customer-dialog.component';
 import { Customer } from '../../models/customer.model';
 import { ListEvent } from '../../../../shared/utils';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CustomersTableComponent } from '../../components/customer-table/customer-table.component';
-import { CustomerApiService } from '../../services/customer-api.service';
+import { AppService } from '../../../../services/app.service';
+import { NewCustomerDialogComponent } from '../../components/customer-dialogs/new-customer-dialog/new-customer-dialog.component';
 import { EditCustomerDialogComponent } from '../../components/customer-dialogs/edit-customer-dialog/edit-customer-dialog.component';
 
 @Component({
@@ -17,34 +17,29 @@ import { EditCustomerDialogComponent } from '../../components/customer-dialogs/e
 })
 export class CustomersComponent implements OnInit { 
   
-  customers: Customer[] = []; 
-
   ref: DynamicDialogRef | undefined;
 
   constructor(private dialogService: DialogService, 
-              // private customerService: CustomersService, 
+              private appService: AppService,
               private messageService: MessageService, 
               private confirmationService: ConfirmationService,
-              private apiService: CustomerApiService) {}
+              ) {}
+
+  customers: Customer[] = [];
 
 
   ngOnInit() {
-    this.fetchData();
+    this.loadCostumers();
   } 
 
 
-  fetchData(){
-    this.apiService.getData().subscribe(
-      { 
-        next: data => { this.customers = <Customer[]>data} // Especificamos el tipo de dato que esperamos recibir como respuesta De la solicitud HTTP
-      }
-      )
+  loadCostumers(){
+    return this.appService.customerApiService.getCostumers().subscribe( (data) => { this.customers = data });
   } 
-
 
     /* 
     En este caso, en la tabla tendremos tres acciones que el usuario hara sobre cada item de la tabla:
-      - Seleccionar Customere - Editar Customere - Eliminar Customere
+      - Seleccionar Customers - Editar Customers - Eliminar Customers
     Cada click en uno de estos, desencadena alguna logica. Estos se llaman eventos.
 
     Recibiremos el tipo de accion del hijo (tabla) y aqui nos encargaremos de recibir lo que el hijo ha emitido.
@@ -53,9 +48,9 @@ export class CustomersComponent implements OnInit {
   onListAction(event: ListEvent) {
     switch (event.type) {
       case 'selected':
-        this.messageService.add(
-          {summary: `Usuario seleccionado: ${event.value.name}`}
-        )
+        // this.messageService.add(
+        //   {summary: `Usuario seleccionado: ${event.value.name}`}
+        // )
         break;
       case 'edit':
         this.onEdit(event.value);
@@ -71,6 +66,7 @@ export class CustomersComponent implements OnInit {
 
 
 
+
   onAdd() { 
     this.ref = this.dialogService.open(NewCustomerDialogComponent, {
       header: 'Nuevo Cliente',
@@ -83,7 +79,8 @@ export class CustomersComponent implements OnInit {
       (newCustomer: Customer) => {
         if (newCustomer) {
           console.log(newCustomer);
-          this.fetchData();
+          this.loadCostumers();
+          this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer added' });
         }
       }
     )
@@ -101,12 +98,15 @@ export class CustomersComponent implements OnInit {
     });
 
     this.ref.onClose.subscribe( (updatedCustomer: Customer | undefined) => {
+
       if ( updatedCustomer ) {
         console.log(updatedCustomer);
-        this.fetchData();
-      }
-    })
+        this.loadCostumers();
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer edited' });
+      } 
+    });
   }
+
 
 
   onDelete(customer: Customer) {
@@ -126,11 +126,11 @@ export class CustomersComponent implements OnInit {
         },
 
         accept: () => {
-            this.apiService.deleteData(customer).subscribe({
+            this.appService.customerApiService.deleteCustomer(customer).subscribe({
                 next: () => { console.log(`Se elimino: ${customer.id}`)},
                 error: () => { console.error() }
             });
-            this.fetchData();
+            this.loadCostumers();
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
 
         },

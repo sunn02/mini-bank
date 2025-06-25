@@ -13,21 +13,21 @@ export class CustomerApiService {
   constructor( private http: HttpClient ) { }
 
 
-  getData() {
-    return this.http.get(this.apiUrl + '/all');
+  getCostumers(): Observable<Customer[]>{
+    return this.http.get<Customer[]>(this.apiUrl + '/all');
   }
 
 
-  postData(newCustomer: Customer) {
-    return this.http.post(this.apiUrl, newCustomer)
+  postCustomer(newCustomer: Customer): Observable<Customer> {
+    return this.http.post<Customer>(this.apiUrl, newCustomer);
   }
 
-  deleteData(customer: Customer){
-    return this.http.delete(this.apiUrl + `/${customer.id}`);
+  deleteCustomer(customer: Customer): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${customer.id}`);
   }
 
-  updateData(updatedCustomer: Customer){
-    return this.http.put(this.apiUrl, updatedCustomer)
+  updateCustomer(updatedCustomer: Customer): Observable<Customer> {
+    return this.http.put<Customer>(this.apiUrl, updatedCustomer);
   }
 
 }

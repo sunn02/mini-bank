@@ -14,21 +14,22 @@ export class BankApiService {
   constructor( private http: HttpClient ) { }
 
 
-  getData() {
-    return this.http.get(this.apiUrl + '/all');
+  getBanks(): Observable<Bank[]> {
+    return this.http.get<Bank[]>(this.apiUrl + '/all');
   }
 
-  postData(newBank: Bank) {
-    return this.http.post(this.apiUrl, newBank)
+  postBank(newBank: Bank): Observable<Bank> {
+    return this.http.post<Bank>(this.apiUrl, newBank);
   }
 
-  deleteData(bank: Bank){
-    return this.http.delete(this.apiUrl + `/${bank.id}`);
+  deleteBank(bank: Bank): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${bank.id}`);
   }
 
-  updateData(updatedBank: Bank){
-    return this.http.put(this.apiUrl, updatedBank)
+  updateBank(updatedBank: Bank): Observable<Bank> {
+    return this.http.put<Bank>(this.apiUrl, updatedBank);
   }
+
   
 
 

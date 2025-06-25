@@ -3,11 +3,11 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 import { ListEvent } from '../../../../shared/utils';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { BankApiService } from '../../services/bank-api.service';
 import { Bank } from '../../models/bank.model';
 import { EditBankDialogComponent } from '../../components/bank-dialogs/edit-bank-dialog/edit-bank-dialog.component';
 import { NewBankDialogComponent } from '../../components/bank-dialogs/new-bank-dialog/new-bank-dialog.component';
 import { BanksTableComponent } from '../../components/bank-table/bank-table.component';
+import { AppService } from '../../../../services/app.service';
 
 @Component({
   selector: 'app-banks',
@@ -24,16 +24,16 @@ export class BanksComponent implements OnInit {
   constructor(private dialogService: DialogService, 
               private messageService: MessageService, 
               private confirmationService: ConfirmationService,
-              private apiService: BankApiService) {}
+              private appService: AppService) {}
 
 
   ngOnInit() {
-    this.fetchData();
+    this.loadBanks();
   } 
 
 
-  fetchData(){
-    this.apiService.getData().subscribe(
+  loadBanks(){
+    this.appService.bankApiService.getBanks().subscribe(
       { 
         next: data => { this.banks = <Bank[]>data} 
       }
@@ -74,7 +74,8 @@ export class BanksComponent implements OnInit {
       (newBank: Bank) => {
         if (newBank) {
           console.log(newBank);
-          this.fetchData();
+          this.loadBanks();
+          this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Bank added' });
         }
       }
     )
@@ -94,7 +95,8 @@ export class BanksComponent implements OnInit {
     this.ref.onClose.subscribe( (updatedBank: Bank | undefined) => {
       if ( updatedBank ) {
         console.log(updatedBank);
-        this.fetchData();
+        this.loadBanks();
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Bank edited' });
       }
     })
   }
@@ -117,11 +119,11 @@ export class BanksComponent implements OnInit {
         },
 
         accept: () => {
-            this.apiService.deleteData(bank).subscribe({
+            this.appService.bankApiService.deleteBank(bank).subscribe({
                 next: () => { console.log(`Se elimino: ${bank.id}`)},
                 error: () => { console.error() }
             });
-            this.fetchData();
+            this.loadBanks();
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
         },
         reject: () => {

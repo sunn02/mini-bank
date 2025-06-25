@@ -3,19 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
 import { Account } from '../../../models/account.model';
-import { CustomerApiService } from '../../../services/account-api.service';
 import { Customer } from '../../../../customer/models/customer.model';
 import { Currency } from '../../../../currency/models/currency.model';
-import { CurrencyApiService } from '../../../../currency/services/currency-api.service';
 import { CommonModule } from '@angular/common';
+import { AppService } from '../../../../../services/app.service';
 
-    @Component({
+@Component({
     selector: 'app-edit-account-dialog',
     imports: [FormsModule, SHARED_PRIMENG_MODULES, CommonModule],
     templateUrl: './edit-account-dialog.component.html',
     styleUrl: './edit-account-dialog.component.css'
-    })
-    export class EditAccountDialogComponent implements OnInit {
+})
+    
+export class EditAccountDialogComponent implements OnInit {
 
     model: Account = {
         holder: "",
@@ -33,8 +33,8 @@ import { CommonModule } from '@angular/common';
         }
     };
 
-    currencies: any[] = [];
-    customers: any[] = [];
+    currencies: Currency[] = [];
+    customers: Customer[] = [];
 
     savingTypes = [
     { label: 'Normal', value: 0 },
@@ -50,9 +50,7 @@ import { CommonModule } from '@angular/common';
     constructor(
         private dialogConfig: DynamicDialogConfig,
         private ref: DynamicDialogRef<EditAccountDialogComponent>,
-        private apiService: CustomerApiService,
-        private currencyApi: CurrencyApiService,      
-        private customerApi: CustomerApiService       
+        private appService: AppService,      
     ) {}
 
     ngOnInit() {
@@ -66,23 +64,22 @@ import { CommonModule } from '@angular/common';
     }
 
     loadCurrencies() {
-        this.currencyApi.getData().subscribe({ 
+        this.appService.currencyApiService.getCurrencies().subscribe({ 
         next: data => { this.currencies = <Currency[]>data} 
-        }
-        )
+        })
     }
 
     loadCustomers() {
-        this.customerApi.getData().subscribe({ 
+        this.appService.customerApiService.getCostumers().subscribe({ 
         next: data => { this.customers = <Customer[]>data} 
-        }
-        )
+        })
     }
 
     edit() {
-        this.apiService.updateData(this.model).subscribe({
+        this.appService.accountApiService.updateAccount(this.model).subscribe({
         next: (response) => this.ref.close(response),
         error: (err) => console.error('Error updating account:', err)
         });
     }
-    }
+
+}

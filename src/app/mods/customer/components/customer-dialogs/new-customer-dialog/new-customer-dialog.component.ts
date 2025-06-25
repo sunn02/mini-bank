@@ -3,10 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
 import { Customer } from '../../../models/customer.model';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CustomerApiService } from '../../../services/customer-api.service';
 import { Bank } from '../../../../banks/models/bank.model';
 import { CommonModule } from '@angular/common';
-import { BankApiService } from '../../../../banks/services/bank-api.service';
+import { AppService } from '../../../../../services/app.service';
 
 
 @Component({
@@ -33,10 +32,10 @@ export class NewCustomerDialogComponent implements OnInit{
     banks: Bank[] = []; 
 
 
-    constructor (public ref: DynamicDialogRef, private apiService: CustomerApiService, private bankApi: BankApiService) {};
+    constructor (public ref: DynamicDialogRef, private appService: AppService) {};
 
     save(){
-        this.apiService.postData(this.model).subscribe({
+        this.appService.customerApiService.postCustomer(this.model).subscribe({
             next: (response) => this.ref.close(response), 
             error: (err) => console.error('Error:', err)
         })
@@ -44,7 +43,7 @@ export class NewCustomerDialogComponent implements OnInit{
 
 
     getBanks(){
-        this.bankApi.getData().subscribe({ 
+        this.appService.bankApiService.getBanks().subscribe({ 
         next: data => { this.banks = <Bank[]>data} 
         }
     )

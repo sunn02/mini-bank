@@ -5,6 +5,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Bank } from '../../../models/bank.model';
 import { CommonModule } from '@angular/common';
 import { BankApiService } from '../../../services/bank-api.service';
+import { AppService } from '../../../../../services/app.service';
 
 
 @Component({
@@ -23,10 +24,10 @@ export class NewBankDialogComponent{
     }
 
 
-    constructor (public ref: DynamicDialogRef, private apiService: BankApiService) {};
+    constructor (public ref: DynamicDialogRef,private appService: AppService) {};
 
     save(){
-        this.apiService.postData(this.model).subscribe({
+        this.appService.bankApiService.postBank(this.model).subscribe({
             next: (response) => this.ref.close(response), 
             error: (err) => console.error('Error:', err)
         })

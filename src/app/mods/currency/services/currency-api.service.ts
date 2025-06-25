@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Currency } from '../models/currency.model';
 
 
 @Injectable({
@@ -13,8 +14,8 @@ export class CurrencyApiService {
   constructor( private http: HttpClient ) { }
 
 
-  getData() {
-    return this.http.get(this.apiUrl + '/all');
+  getCurrencies(): Observable<Currency[]> {
+    return this.http.get<Currency[]>(this.apiUrl + '/all');
   }
 
 

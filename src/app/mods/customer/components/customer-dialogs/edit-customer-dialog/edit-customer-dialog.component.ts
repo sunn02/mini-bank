@@ -4,8 +4,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
 import { Customer } from '../../../models/customer.model';
 import { Bank } from '../../../../banks/models/bank.model';
-import { BankApiService } from '../../../../banks/services/bank-api.service';
-import { CustomerApiService } from '../../../services/customer-api.service';
+import { AppService } from '../../../../../services/app.service';
 
 @Component({
     selector: 'app-edit-customer-dialog',
@@ -16,10 +15,7 @@ import { CustomerApiService } from '../../../services/customer-api.service';
 export class EditCustomerDialogComponent implements OnInit{
 
     customerToUpdate: any;
-
-    constructor(private dialogConfig: DynamicDialogConfig, private ref: DynamicDialogRef<EditCustomerDialogComponent>,private apiService: CustomerApiService,  private bankApi: BankApiService) {
-    }
-
+    banks: Bank[] = [];
 
     model: Customer = {
         name: "",
@@ -34,31 +30,34 @@ export class EditCustomerDialogComponent implements OnInit{
     }
 
 
-    banks: Bank[] = []; 
-
-    edit(){
-        this.apiService.updateData(this.model).subscribe({
-            next: (response) => this.ref.close(response), 
-            error: (err) => console.error('Error:', err)
-        })
+    constructor(private dialogConfig: DynamicDialogConfig, 
+        private ref: DynamicDialogRef<EditCustomerDialogComponent>,private appService: AppService) {
     }
+
     
-    getBanks(){
-        this.bankApi.getData().subscribe({ 
-        next: data => { this.banks = <Bank[]>data} 
-        }
-    )
-    }
-
-
-
     ngOnInit() {
         this.customerToUpdate = this.dialogConfig.data.value;
         if (this.customerToUpdate) {
             this.model = { ...this.customerToUpdate, bankId: this.customerToUpdate.bank.id }; // Hacemos una copia para no modificar directo el objeto original
         }
         
-        this.getBanks();
+        this.loadBanks();
     } 
+
+    edit(){
+        this.appService.customerApiService.updateCustomer(this.model).subscribe({
+            next: (response) => this.ref.close(response), 
+            error: (err) => console.error('Error:', err)
+        })
+    }
+    
+    loadBanks(){
+        this.appService.bankApiService.getBanks().subscribe({ 
+        next: data => { this.banks = <Bank[]>data} 
+        }
+    )
+    }
+
+
 
 }

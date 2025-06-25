@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
 import { Account } from '../../../models/account.model';
-import { CustomerApiService } from '../../../services/account-api.service';
-import { CurrencyApiService } from '../../../../currency/services/currency-api.service';
 import { Currency } from '../../../../currency/models/currency.model';
 import { Customer } from '../../../../customer/models/customer.model';
 import { CommonModule } from '@angular/common';
+import { AppService } from '../../../../../services/app.service';
 
     @Component({
     selector: 'app-edit-account-dialog',
@@ -33,8 +32,8 @@ import { CommonModule } from '@angular/common';
         }
     };
 
-    currencies: any[] = [];
-    customers: any[] = [];
+    currencies: Currency[] = [];
+    customers: Customer[] = [];
 
     savingTypes = [
     { label: 'Normal', value: 0 },
@@ -48,9 +47,7 @@ import { CommonModule } from '@angular/common';
 
     constructor(
         public ref: DynamicDialogRef,
-        private apiService: CustomerApiService,
-        private currencyApi: CurrencyApiService,      
-        private customerApi: CustomerApiService       
+        private appService: AppService,
     ) {}
 
     ngOnInit() {
@@ -59,21 +56,19 @@ import { CommonModule } from '@angular/common';
     }
 
     loadCurrencies() {
-        this.currencyApi.getData().subscribe({ 
+        this.appService.currencyApiService.getCurrencies().subscribe({ 
         next: data => { this.currencies = <Currency[]>data} 
-        }
-        )
+        })
     }
 
     loadCustomers() {
-        this.customerApi.getData().subscribe({ 
+        this.appService.customerApiService.getCostumers().subscribe({ 
         next: data => { this.customers = <Customer[]>data} 
-        }
-        )
+        })
     }
 
     save(){
-        this.apiService.postData(this.model).subscribe({
+        this.appService.accountApiService.postAccount(this.model).subscribe({
             next: (response) => this.ref.close(response), 
             error: (err) => console.error('Error:', err)
         })
