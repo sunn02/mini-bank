@@ -1,6 +1,10 @@
 <div class="form-container">
     <p-card styleClass="form">
-        <form #userForm="ngForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-card">
+        <h1>Sign In</h1>
+        <p>Welcome back</p>
+          <form #userForm="ngForm" (ngSubmit)="onSubmit()">
           
             <input type="text" pInputText [(ngModel)]="username" name="username" placeholder="Username">
             <input type="password" pInputText [(ngModel)]="password" name="password" placeholder="Password">
@@ -14,5 +18,7 @@
             }
 
         </form>
+      </div>
+  
     </p-card>
   </div>

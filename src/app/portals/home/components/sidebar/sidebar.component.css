@@ -4,9 +4,17 @@
     width: 250px;
     background-color: rgb(9, 1, 56);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
+
+
+
+
+
+
 
 
 

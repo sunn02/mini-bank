@@ -1,0 +1,26 @@
+.header-container{
+    background-color: rgb(255, 255, 255);
+    height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+::ng-deep p-menubarsub {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    flex-wrap: wrap;
+    /* height: 60px; */
+}
+
+::ng-deep .p-menubar-root-list {
+  width: 100%;
+  justify-content: end;
+}
+
+
+
+
+

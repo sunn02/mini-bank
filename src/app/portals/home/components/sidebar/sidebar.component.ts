@@ -32,11 +32,7 @@ export class SidebarComponent {
       icon: 'pi pi-building-columns',
       routerLink: ['/home/banks']
     },
-    {
-      label: 'Transferencias',
-      icon: 'pi pi-send',
-      routerLink: ['/home']
-    },
   ];
+
 
 }

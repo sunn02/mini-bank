@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #cccfd1;
+    background-color: #f0f1f7;
     padding: 20px;
 }
 
@@ -15,17 +15,37 @@
     align-items: center;
     gap: 16px;
     width: 100%;
-    max-width: 280px;
+    max-width: 200px;
     height: 200px;
     background-color: white;
     border-radius: 16px;
 }
 
+.form-card{
+    background-color: rgb(255, 255, 255);
+    padding: 50px;
+}
 
 .form-container button {
     min-height: 40px;
-    min-width: 100px; 
+    margin-top: 10px;
+    width: 100%; 
 }
+
+.form-container input {
+    width: 100%; 
+}
+
+h1, p{
+    text-align: center;
+}
+
+p {
+    color: #979696;
+}
+
+
+
 
 
 
