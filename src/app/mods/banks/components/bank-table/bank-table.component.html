@@ -13,6 +13,7 @@
 <!-- Datos -->
     <ng-template #body let-bank>
         <tr [pSelectableRow]="bank" (click)="onRowClick(bank)">
+            
             <td>{{ bank.id }}</td>
             <td>{{ bank.name }}</td>
             <td>{{ bank.address }}</td>

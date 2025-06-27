@@ -18,6 +18,7 @@ import { AppService } from '../../../../services/app.service';
 export class BanksComponent implements OnInit { 
   
   banks: Bank[] = []; 
+  isLoading: boolean = false;
 
   ref: DynamicDialogRef | undefined;
 
@@ -35,7 +36,12 @@ export class BanksComponent implements OnInit {
   loadBanks(){
     this.appService.bankApiService.getBanks().subscribe(
       { 
-        next: data => { this.banks = <Bank[]>data} 
+        next: data => { 
+          this.banks = <Bank[]>data;
+        },
+        error: err => {
+          console.log(err);
+        }
       }
       )
   } 
