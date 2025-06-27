@@ -31,7 +31,8 @@ export class EditCustomerDialogComponent implements OnInit{
 
 
     constructor(private dialogConfig: DynamicDialogConfig, 
-        private ref: DynamicDialogRef<EditCustomerDialogComponent>,private appService: AppService) {
+        private ref: DynamicDialogRef<EditCustomerDialogComponent>,
+        private appService: AppService) {
     }
 
     
