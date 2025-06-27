@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
-import { Account } from '../../../models/account.model';
+import { AccountPutRequest } from '../../../models/account.model';
 import { Customer } from '../../../../customer/models/customer.model';
 import { Currency } from '../../../../currency/models/currency.model';
 import { CommonModule } from '@angular/common';
@@ -17,34 +17,26 @@ import { AppService } from '../../../../../services/app.service';
     
 export class EditAccountDialogComponent implements OnInit {
 
-    model: Account = {
+    accountToUpdate: any;
+
+
+    model: AccountPutRequest = {
         holder: "",
         number: "",
-        type: 0,
+        balance: 0,
+        status: 0,
         currencyId: 0,
         customerId: 0,
-        createSavingAccount: {
-        savingType: 0
-        },
-        createCurrentAccount: {
-        operationalLimit: "",
-        monthAverage: "",
-        interest: ""
-        }
     };
 
     currencies: Currency[] = [];
     customers: Customer[] = [];
 
-    savingTypes = [
-    { label: 'Normal', value: 0 },
-    { label: 'Fixed Term', value: 1 }
+    statusOptions = [
+        { label: 'Activo', value: 0 },
+        { label: 'Inactivo', value: 1 }
     ];
 
-    accountTypes = [
-    { label: 'Saving Account', value: 0 },
-    { label: 'Current Account', value: 1 }
-    ];
 
 
     constructor(
@@ -55,8 +47,9 @@ export class EditAccountDialogComponent implements OnInit {
 
     ngOnInit() {
         const accountToUpdate = this.dialogConfig.data.value;
+        console.log(accountToUpdate);
         if (accountToUpdate) {
-        this.model = { ...accountToUpdate };
+            this.model = { ...accountToUpdate};
         }
 
         this.loadCurrencies();

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Account } from '../../models/account.model';
+import { AccountResponse } from '../../models/account.model';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 import { ListEvent } from '../../../../shared/utils';
 
@@ -20,11 +20,10 @@ export class AccountsTableComponent {
   constructor() {}
 
 
-  _list: Account[] = []; 
+  _list: AccountResponse[] = []; 
 
 
-  @Input() set list(list: Account[]) { 
-    
+  @Input() set list(list: AccountResponse[]) { 
     this._list = list;
   }
 

@@ -1,4 +1,6 @@
-export interface Account {
+
+
+export interface AccountPostRequest {
     id?: number;
     holder: string;
     number: string;
@@ -9,12 +11,37 @@ export interface Account {
     createCurrentAccount: CreateCurrentAccount;
 }
 
+
+export interface AccountPutRequest {
+    id?: number;
+    holder: string;
+    number: string;
+    balance: number;
+    status: number;
+    currencyId: number;
+    customerId: number;
+}
+
 export interface CreateSavingAccount {
-    savingType: number;
+    savingType:  number;
 }
 
 export interface CreateCurrentAccount {
-    operationalLimit: number | string;
-    monthAverage: number | string;
-    interest: number | string;
+    operationalLimit: number;
+    monthAverage: number;
+    interest: number;
 }
+
+export interface AccountResponse {
+    id: number;
+    holder: string;
+    number: string;
+    type: number;
+    balance: number;
+    status: string;
+    currency: number;
+    customer: number;
+    savingAccount: CreateSavingAccount | null;
+    currentAccount: CreateCurrentAccount | null;
+}
+

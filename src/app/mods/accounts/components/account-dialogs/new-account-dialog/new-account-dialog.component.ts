@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../../shared/shared-primeng';
-import { Account } from '../../../models/account.model';
+import { AccountPostRequest } from '../../../models/account.model';
 import { Currency } from '../../../../currency/models/currency.model';
 import { Customer } from '../../../../customer/models/customer.model';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { AppService } from '../../../../../services/app.service';
     })
     export class NewAccountDialogComponent implements OnInit {
 
-    model: Account = {
+    model: AccountPostRequest = {
         holder: "",
         number: "",
         type: 0,
@@ -26,9 +26,9 @@ import { AppService } from '../../../../../services/app.service';
         savingType: 0
         },
         createCurrentAccount: {
-        operationalLimit: "",
-        monthAverage: "",
-        interest: ""
+        operationalLimit: 0,
+        monthAverage: 0,
+        interest: 0
         }
     };
 
@@ -36,8 +36,8 @@ import { AppService } from '../../../../../services/app.service';
     customers: Customer[] = [];
 
     savingTypes = [
-    { label: 'Normal', value: 0 },
-    { label: 'Fixed Term', value: 1 }
+    { label: 'Normal', value: 1 },
+    { label: 'Fixed Term', value: 2 }
     ];
 
     accountTypes = [
@@ -68,6 +68,7 @@ import { AppService } from '../../../../../services/app.service';
     }
 
     save(){
+        console.log(this.model);
         this.appService.accountApiService.postAccount(this.model).subscribe({
             next: (response) => this.ref.close(response), 
             error: (err) => console.error('Error:', err)

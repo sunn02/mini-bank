@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 import { NewAccountDialogComponent } from '../../components/account-dialogs/new-account-dialog/new-account-dialog.component';
-import { Account } from '../../models/account.model';
+import { AccountResponse, AccountPostRequest, AccountPutRequest } from '../../models/account.model';
 import { ListEvent } from '../../../../shared/utils';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AccountsTableComponent } from '../../components/account-table/account-table.component';
@@ -17,7 +17,6 @@ import { AppService } from '../../../../services/app.service';
 })
 export class AccountsComponent implements OnInit { 
     
-    accounts: Account[] = []; 
 
     ref: DynamicDialogRef | undefined;
 
@@ -26,6 +25,8 @@ export class AccountsComponent implements OnInit {
             private confirmationService: ConfirmationService,
             private appService: AppService) {}
 
+    accounts: AccountResponse[] = []; 
+    
 
     ngOnInit() {
         this.loadAccounts();
@@ -33,7 +34,7 @@ export class AccountsComponent implements OnInit {
 
 
     loadAccounts(){
-        this.appService.accountApiService.getAccounts();
+        return this.appService.accountApiService.getAccounts().subscribe( (data) => { this.accounts = data });;
     } 
 
 
@@ -41,7 +42,7 @@ export class AccountsComponent implements OnInit {
         switch (event.type) {
         case 'selected':
             this.messageService.add(
-            {summary: `Cuenta seleccionado: ${event.value.name}`}
+            {summary: `Cuenta seleccionado: ${event.value.holder}`}
             )
             break;
         case 'edit':
@@ -67,10 +68,10 @@ export class AccountsComponent implements OnInit {
 
 
         this.ref.onClose.subscribe(
-        (newAccount: Account) => {
-            console.log('Resultado del diálogo:', newAccount);
+        (newAccount: AccountPostRequest ) => {
             if (newAccount) {
             console.log(newAccount);
+            this.loadAccounts();
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer added' });
             }
         }
@@ -78,7 +79,7 @@ export class AccountsComponent implements OnInit {
     }
 
 
-    onEdit(account: Account){
+    onEdit(account: AccountPutRequest){
         this.ref = this.dialogService.open(EditAccountDialogComponent, {
         data: {
             value: account,
@@ -88,7 +89,7 @@ export class AccountsComponent implements OnInit {
         modal: true,
         });
 
-        this.ref.onClose.subscribe( (updatedAccount: Account | undefined) => {
+        this.ref.onClose.subscribe( (updatedAccount: AccountPutRequest | undefined) => {
         if ( updatedAccount ) {
             console.log(updatedAccount);
             this.loadAccounts();
@@ -98,7 +99,7 @@ export class AccountsComponent implements OnInit {
     }
 
 
-    onDelete(account: Account) {
+    onDelete(account: AccountResponse) {
         this.confirmationService.confirm({
             message: 'Do you want to delete this Customer?',
             header: 'Danger Zone',
@@ -119,6 +120,7 @@ export class AccountsComponent implements OnInit {
                     next: () => { console.log(`Se elimino: ${account.id}`)},
                     error: () => { console.error() }
                 });
+                this.loadAccounts();
                 this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Account deleted' });
             },
             reject: () => {
