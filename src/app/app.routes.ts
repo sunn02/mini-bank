@@ -5,6 +5,7 @@ import { DashboardComponent } from './portals/home/components/dashboard/dashboar
 import { CustomersComponent } from './mods/customer/pages/customer-page/customer.component';
 import { BanksComponent } from './mods/banks/pages/bank-page/bank.component';
 import { AccountsComponent } from './mods/accounts/pages/account-page/account.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 // canActivate: [authGuard]
 export const routes: Routes = [
@@ -35,5 +36,6 @@ export const routes: Routes = [
 
 
   },
-  { path: '', component:  LoginComponent}
+  { path: '', component:  LoginComponent},
+  { path: '**',  component: NotFoundComponent}
 ];
