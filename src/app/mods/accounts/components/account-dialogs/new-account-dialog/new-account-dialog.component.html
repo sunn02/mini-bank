@@ -7,20 +7,9 @@
 
     <!-- Número de cuenta -->
     <div class="field col-12 md:col-6">
-        <input type="text" pInputText [(ngModel)]="model.number" name="number" placeholder="Account Number" />
+        <input type="text" pInputText [(ngModel)]="model.number" name="number" placeholder="Numero de cuenta" />
     </div>
 
-    <!-- Tipo de cuenta -->
-    <div class="field col-12 md:col-6">
-        <p-dropdown
-        [options]="accountTypes"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Select account type"
-        [(ngModel)]="model.type"
-        name="type">
-        </p-dropdown>
-    </div>
 
     <!-- Moneda -->
     <div class="field col-12 md:col-6">
@@ -28,7 +17,7 @@
         [options]="currencies"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select currency"
+        placeholder="Moneda"
         [(ngModel)]="model.currencyId"
         name="currencyId">
         </p-dropdown>
@@ -40,19 +29,33 @@
         [options]="customers"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select customer"
+        placeholder="Cliente"
         [(ngModel)]="model.customerId"
-        name="customerId">
+        name="customerId"
+        appendTo="body">
+        
+        </p-dropdown>
+    </div>
+
+    <!-- Tipo de cuenta -->
+    <div class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="accountTypes"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Tipo de cuenta"
+        [(ngModel)]="model.type"
+        name="type">
         </p-dropdown>
     </div>
 
     <!-- Datos de cuenta de ahorro (solo si type === 0) -->
-    <div *ngIf="model.type === 0" class="field col-12 md:col-6">
+    <div *ngIf="model.type === 0" class="field col-12">
         <p-dropdown
         [options]="savingTypes"
         optionLabel="label"
         optionValue="value"
-        placeholder="Saving Type"
+        placeholder="Tipo de ahorro"
         [(ngModel)]="model.createSavingAccount.savingType"
         name="savingType">
         </p-dropdown>
@@ -61,15 +64,19 @@
     <!-- Datos de cuenta corriente (solo si type === 1) -->
     <div *ngIf="model.type === 1" class="col-12">
         <div class="field col-12 md:col-6">
-        <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.operationalLimit" name="operationalLimit" placeholder="Operational Limit" />
+            <label for="operationalLimit">Límite operativo</label>
+            <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.operationalLimit" name="operationalLimit" id="operationalLimit" />
         </div>
         <div class="field col-12 md:col-6">
-        <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.monthAverage" name="monthAverage" placeholder="Monthly Average" />
+            <label for="monthAverage">Promedio mensual</label>
+            <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.monthAverage" name="monthAverage" id="monthAverage" />
         </div>
         <div class="field col-12 md:col-6">
-        <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.interest" name="interest" placeholder="Interest (%)" />
+            <label for="interest">Interés (%)</label>
+            <input type="number" pInputText [(ngModel)]="model.createCurrentAccount.interest" name="interest" id="interest" />
         </div>
     </div>
+
 
     <!-- Botón -->
     <div class="field col-12 flex justify-content-center">

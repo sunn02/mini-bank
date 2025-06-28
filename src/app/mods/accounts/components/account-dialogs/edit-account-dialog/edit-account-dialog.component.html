@@ -7,7 +7,7 @@
 
   <!-- Número de cuenta -->
   <div class="field col-12 md:col-6">
-    <input type="text" pInputText [(ngModel)]="model.number" name="number" placeholder="Account Number" />
+    <input type="text" pInputText [(ngModel)]="model.number" name="number" placeholder="Numero de cuenta" />
   </div>
 
   <!-- Moneda -->
@@ -16,7 +16,7 @@
       [options]="currencies"
       optionLabel="name"
       optionValue="id"
-      placeholder="Select currency"
+      placeholder="Moneda"
       [(ngModel)]="model.currencyId"
       name="currencyId">
     </p-dropdown>
@@ -28,7 +28,7 @@
       [options]="customers"
       optionLabel="name"
       optionValue="id"
-      placeholder="Select customer"
+      placeholder="Cliente"
       [(ngModel)]="model.customerId"
       name="customerId">
     </p-dropdown>
@@ -36,7 +36,7 @@
 
   <!-- Balance -->
   <div class="field col-12 md:col-6">
-    <input type="number" pInputText [(ngModel)]="model.balance" name="balance" placeholder="Balance" />
+    <input type="number" pInputText [(ngModel)]="model.balance" name="balance" placeholder="Saldo" />
   </div>
 
   <!-- Estado -->
@@ -45,7 +45,7 @@
       [options]="statusOptions"
       optionLabel="label"
       optionValue="value"
-      placeholder="Select status"
+      placeholder="Estado"
       [(ngModel)]="model.status"
       name="status">
     </p-dropdown>

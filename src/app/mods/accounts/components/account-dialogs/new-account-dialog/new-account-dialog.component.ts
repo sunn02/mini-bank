@@ -37,12 +37,12 @@ import { AppService } from '../../../../../services/app.service';
 
     savingTypes = [
     { label: 'Normal', value: 1 },
-    { label: 'Fixed Term', value: 2 }
+    { label: 'Plazo Fijo', value: 2 }
     ];
 
     accountTypes = [
-    { label: 'Saving Account', value: 0 },
-    { label: 'Current Account', value: 1 }
+    { label: 'Cuenta de Ahorros', value: 0 },
+    { label: 'Cuenta Corriente', value: 1 }
     ];
 
     constructor(

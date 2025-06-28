@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 import { Customer } from '../../models/customer.model';
 import { ListEvent } from '../../../../shared/utils';
@@ -8,6 +7,7 @@ import { CustomersTableComponent } from '../../components/customer-table/custome
 import { AppService } from '../../../../services/app.service';
 import { NewCustomerDialogComponent } from '../../components/customer-dialogs/new-customer-dialog/new-customer-dialog.component';
 import { EditCustomerDialogComponent } from '../../components/customer-dialogs/edit-customer-dialog/edit-customer-dialog.component';
+import { UiService } from '../../../../services/ui.service';
 
 @Component({
   selector: 'app-Customers',
@@ -17,23 +17,20 @@ import { EditCustomerDialogComponent } from '../../components/customer-dialogs/e
 })
 export class CustomersComponent implements OnInit { 
   
-  ref: DynamicDialogRef | undefined;
 
-  constructor(private dialogService: DialogService, 
-              private appService: AppService,
-              private messageService: MessageService, 
-              private confirmationService: ConfirmationService,
+  constructor(private appService: AppService,
+              private uiService: UiService, 
               ) {}
 
   customers: Customer[] = [];
 
 
   ngOnInit() {
-    this.loadCostumers();
+    this.loadCustomers();
   } 
 
 
-  loadCostumers(){
+  loadCustomers(){
     return this.appService.customerApiService.getCostumers().subscribe( (data) => { this.customers = data });
   } 
 
@@ -48,9 +45,7 @@ export class CustomersComponent implements OnInit {
   onListAction(event: ListEvent) {
     switch (event.type) {
       case 'selected':
-        // this.messageService.add(
-        //   {summary: `Usuario seleccionado: ${event.value.name}`}
-        // )
+          this.uiService.showMessage('Cliente seleccionado', `Nombre: ${event.value.name}`, 'info');
         break;
       case 'edit':
         this.onEdit(event.value);
@@ -68,82 +63,63 @@ export class CustomersComponent implements OnInit {
 
 
   onAdd() { 
-    this.ref = this.dialogService.open(NewCustomerDialogComponent, {
-      header: 'Nuevo Cliente',
-      closable: true,
-      modal: true,
-    });
-
-
-    this.ref.onClose.subscribe(
-      (newCustomer: Customer) => {
+    this.uiService.openDialog<Customer>(NewCustomerDialogComponent, {
+        header: 'Nuevo Cliente',
+        closable: true,
+        modal: true,
+      })
+      .subscribe((newCustomer: Customer) => {
         if (newCustomer) {
-          console.log(newCustomer);
-          this.loadCostumers();
-          this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer added' });
+          this.loadCustomers();
+          this.uiService.showMessage('Confirmado', 'Cliente agregado', 'info');
         }
-      }
-    )
+
+      });
   }
 
 
   onEdit(customer: Customer){
-    this.ref = this.dialogService.open(EditCustomerDialogComponent, {
-      data: {
-        value: customer,
-      },
-      header: 'Editar Cliente',
-      closable: true,
-      modal: true,
-    });
+      this.uiService.openDialog<Customer>(EditCustomerDialogComponent, {
+        data: { value: customer },
+        header: 'Editar Cliente',
+        closable: true,
+        modal: true,
+      })
+      .subscribe((updatedCustomer: Customer) => {
+        if (updatedCustomer) {
+            this.loadCustomers();
+            this.uiService.showMessage('Confirmado', 'Cliente editado', 'info');
+        }
 
-    this.ref.onClose.subscribe( (updatedCustomer: Customer | undefined) => {
-
-      if ( updatedCustomer ) {
-        console.log(updatedCustomer);
-        this.loadCostumers();
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer edited' });
-      } 
-    });
+      });
   }
 
 
 
   onDelete(customer: Customer) {
-    this.confirmationService.confirm({
-        message: 'Do you want to delete this Customer?',
-        header: 'Danger Zone',
-        icon: 'pi pi-info-circle',
-        rejectLabel: 'Cancel',
-        rejectButtonProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true,
-        },
-        acceptButtonProps: {
-            label: 'Delete',
-            severity: 'danger',
-        },
-
-        accept: () => {
-            this.appService.customerApiService.deleteCustomer(customer).subscribe({
-                next: () => { console.log(`Se elimino: ${customer.id}`)},
-                error: () => { console.error() }
-            });
-            this.loadCostumers();
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer deleted' });
-
-        },
-        reject: () => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-        },
+      this.uiService.confirmAction({
+      message: '¿Deseás eliminar este cliente?',
+      header: 'Zona de riesgo',
+      accept: () => {
+        this.appService.customerApiService.deleteCustomer(customer).subscribe({
+          next: () => {
+            this.loadCustomers();
+            this.uiService.showMessage('Confirmado', 'Cliente eliminado', 'info');
+          },
+          error: () => {
+            this.uiService.showMessage('Error', 'No se pudo eliminar el cliente', 'error');
+          },
+        });
+      },
     });
-}
-
-
-
-
-
-
+  }
 
 }
+
+
+
+
+
+
+
+

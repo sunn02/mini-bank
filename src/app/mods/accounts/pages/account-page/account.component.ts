@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SHARED_PRIMENG_MODULES } from '../../../../shared/shared-primeng';
 import { NewAccountDialogComponent } from '../../components/account-dialogs/new-account-dialog/new-account-dialog.component';
 import { AccountResponse, AccountPostRequest, AccountPutRequest } from '../../models/account.model';
 import { ListEvent } from '../../../../shared/utils';
-import { ConfirmationService, MessageService } from 'primeng/api';
 import { AccountsTableComponent } from '../../components/account-table/account-table.component';
 import { EditAccountDialogComponent } from '../../components/account-dialogs/edit-account-dialog/edit-account-dialog.component';
 import { AppService } from '../../../../services/app.service';
+import { UiService } from '../../../../services/ui.service';
 
 @Component({
     selector: 'app-Customers',
@@ -18,11 +17,8 @@ import { AppService } from '../../../../services/app.service';
 export class AccountsComponent implements OnInit { 
     
 
-    ref: DynamicDialogRef | undefined;
-
-    constructor(private dialogService: DialogService, 
-            private messageService: MessageService, 
-            private confirmationService: ConfirmationService,
+    constructor(
+            private uiService: UiService, 
             private appService: AppService) {}
 
     accounts: AccountResponse[] = []; 
@@ -41,9 +37,7 @@ export class AccountsComponent implements OnInit {
     onListAction(event: ListEvent) {
         switch (event.type) {
         case 'selected':
-            this.messageService.add(
-            {summary: `Cuenta seleccionado: ${event.value.holder}`}
-            )
+            this.uiService.showMessage('Cuenta seleccionada', `Titular: ${event.value.holder}`, 'info');
             break;
         case 'edit':
             this.onEdit(event.value);
@@ -60,73 +54,50 @@ export class AccountsComponent implements OnInit {
 
 
     onAdd() { 
-        this.ref = this.dialogService.open(NewAccountDialogComponent, {
+        this.uiService.openDialog<AccountPostRequest>(NewAccountDialogComponent, {
         header: 'Nueva Cuenta',
         closable: true,
         modal: true,
-        });
-
-
-        this.ref.onClose.subscribe(
-        (newAccount: AccountPostRequest ) => {
+        }).subscribe((newAccount: AccountPostRequest) => {
             if (newAccount) {
-            console.log(newAccount);
             this.loadAccounts();
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Customer added' });
+            this.uiService.showMessage('Confirmado', 'Cuenta agregada', 'info');
             }
-        }
-        )
+        });
     }
 
 
     onEdit(account: AccountPutRequest){
-        this.ref = this.dialogService.open(EditAccountDialogComponent, {
-        data: {
-            value: account,
-        },
-        header: 'Editar Cuenta',
-        closable: true,
-        modal: true,
-        });
-
-        this.ref.onClose.subscribe( (updatedAccount: AccountPutRequest | undefined) => {
-        if ( updatedAccount ) {
-            console.log(updatedAccount);
+        this.uiService.openDialog<AccountPutRequest>(EditAccountDialogComponent, {
+            data: { value: account },
+            header: 'Editar Cuenta',
+            closable: true,
+            modal: true,
+    }).subscribe((updatedAccount: AccountPutRequest) => {
+        if (updatedAccount) {
             this.loadAccounts();
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Accoun edited' });
-        }
-        })
+            this.uiService.showMessage('Confirmado', 'Cuenta editada', 'info');
+        }});
     }
 
 
     onDelete(account: AccountResponse) {
-        this.confirmationService.confirm({
-            message: 'Do you want to delete this Customer?',
-            header: 'Danger Zone',
-            icon: 'pi pi-info-circle',
-            rejectLabel: 'Cancel',
-            rejectButtonProps: {
-                label: 'Cancel',
-                severity: 'secondary',
-                outlined: true,
-            },
-            acceptButtonProps: {
-                label: 'Delete',
-                severity: 'danger',
-            },
-
+        this.uiService.confirmAction({
+            message: '¿Deseás eliminar esta cuenta?',
+            header: 'Zona de riesgo',
             accept: () => {
                 this.appService.accountApiService.deleteAccount(account).subscribe({
-                    next: () => { console.log(`Se elimino: ${account.id}`)},
-                    error: () => { console.error() }
+                next: () => {
+                    this.loadAccounts();
+                    this.uiService.showMessage('Confirmado', 'Cuenta eliminada', 'info');
+                },
+                error: () => {
+                    this.uiService.showMessage('Error', 'No se pudo eliminar la cuenta', 'error');
+                },
                 });
-                this.loadAccounts();
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Account deleted' });
             },
-            reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-            },
-        });
+            });
+        }
     }
 
 
@@ -134,5 +105,3 @@ export class AccountsComponent implements OnInit {
 
 
 
-
-}
