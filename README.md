@@ -48,7 +48,7 @@ Para acceder al panel de administración:
 
 * Angular
 * TypeScript
-* SCSS
+* CSS
 * PrimeNG / PrimeIcons
 
 **Backend (Mock):**
