@@ -1,0 +1,38 @@
+<!-- Encabezado -->
+<p-table [value]="_list" [rowHover]="true">
+    <ng-template #header>
+        <tr>
+            <th>ID</th>
+            <th>Holder</th>
+            <th>Bank</th>
+            <th>Number</th>
+            <th>Type</th>
+            <th>Balance</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+
+<!-- Datos -->
+
+    <ng-template #body let-account>
+        <tr [pSelectableRow]="account" (click)="onRowClick(account)">
+            <td>{{ account.id }}</td>
+            <td>{{ account.holder }}</td>
+            <td>{{ getBankName(account.bankId) }}</td>
+            <td>{{ account.number }}</td>
+            <td>
+                <span [ngSwitch]="account.type">
+                <span *ngSwitchCase="0">Cuenta de Ahorros</span>
+                <span *ngSwitchCase="1">Cuenta Corriente</span>
+                </span>
+            </td>
+            <td>{{ account.balance }}</td>
+            <td>{{ account.status }}</td>
+            <td> 
+                <button type="button" (click)="onEdit(account)" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
+                <button type="button" (click)="onDelete(account)" pButton icon="pi pi-trash" class="p-button-rounded p-button-text"></button> 
+            </td> 
+        </tr>
+    </ng-template>
+</p-table>

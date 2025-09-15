@@ -1,0 +1,13 @@
+
+
+.transfers-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.transfers-content button {
+    align-self: flex-end;
+}
+

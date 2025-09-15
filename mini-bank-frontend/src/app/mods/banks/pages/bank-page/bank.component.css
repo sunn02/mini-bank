@@ -1,0 +1,13 @@
+
+
+.bank-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.bank-content button {
+    align-self: flex-end;
+}
+

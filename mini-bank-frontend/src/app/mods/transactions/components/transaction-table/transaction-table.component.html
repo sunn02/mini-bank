@@ -1,0 +1,27 @@
+
+  <!-- Tabla de transferencias -->
+  <p-table [value]="_list">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Cuenta Origen</th>
+        <th>Cuenta Destino</th>
+        <th>Monto</th>
+        <th>Moneda</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-transfer>
+      <tr>
+        <td>{{ transfer.id }}</td>
+        <td>{{ transfer.fromAccountHolder }}</td>
+        <td>{{ transfer.toAccountHolder }}</td>
+        <td>{{ transfer.amount }}</td>
+        <td>{{ transfer.currencyId }}</td>
+        <td>{{ transfer.description }}</td>
+        <td>{{ transfer.date}}</td>
+      </tr>
+    </ng-template>
+  </p-table>

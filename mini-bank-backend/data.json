@@ -1,0 +1,183 @@
+{
+  "banks": [
+    {
+      "id": 1,
+      "name": "Banco Familiar",
+      "phone": "021-123456",
+      "mail": "contacto@bancofamiliar.com",
+      "address": "Av. Central 123"
+    },
+    {
+      "id": 2,
+      "name": "Itaú",
+      "phone": "021-654321",
+      "mail": "contacto@itau.com",
+      "address": "Calle 456"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "Ana",
+      "lastname": "Gómez",
+      "documentNumber": "12345678",
+      "address": "Calle Falsa 123",
+      "mail": "ana.gomez@email.com",
+      "phone": "0981-123456",
+      "customerStatus": 1,
+      "birth": "1998-04-10",
+      "accounts": [
+        {
+          "id": 1,
+          "holder": "Ana Gómez",
+          "number": "ACC001",
+          "type": 1,
+          "balance": 1500,
+          "status": "Activa",
+          "currency": 1,
+          "customer": 1,
+          "savingAccount": {
+            "savingType": 1
+          },
+          "currentAccount": null
+        },
+        {
+          "id": 2,
+          "holder": "Ana Gómez",
+          "number": "ACC002",
+          "type": 2,
+          "balance": 2000,
+          "status": "Activa",
+          "currency": 1,
+          "customer": 1,
+          "savingAccount": null,
+          "currentAccount": {
+            "operationalLimit": 5000,
+            "monthAverage": 1200,
+            "interest": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Carlos",
+      "lastname": "Martínez",
+      "documentNumber": "87654321",
+      "address": "Calle Verdadera 456",
+      "mail": "carlos.martinez@email.com",
+      "phone": "0981-654321",
+      "customerStatus": 1,
+      "birth": "1992-11-22",
+      "accounts": [
+        {
+          "id": 3,
+          "holder": "Carlos Martínez",
+          "number": "ACC003",
+          "type": 1,
+          "balance": 3000,
+          "status": "Activa",
+          "currency": 1,
+          "customer": 2,
+          "savingAccount": {
+            "savingType": 2
+          },
+          "currentAccount": null
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "id": 1,
+      "holder": "Ana Gómez",
+      "number": "ACC001",
+      "type": 0,
+      "balance": 1500,
+      "status": "Activa",
+      "currency": 1,
+      "customerId": 1,
+      "bankId": 1,
+      "savingAccount": {
+        "savingType": 1
+      },
+      "currentAccount": null
+    },
+    {
+      "id": 2,
+      "holder": "Ana Gómez",
+      "number": "ACC002",
+      "type": 1,
+      "balance": 2000,
+      "status": "Activa",
+      "currency": 1,
+      "customerId": 1,
+      "bankId": 2,
+      "savingAccount": null,
+      "currentAccount": {
+        "operationalLimit": 5000,
+        "monthAverage": 1200,
+        "interest": 5
+      }
+    },
+    {
+      "id": 3,
+      "holder": "Carlos Martínez",
+      "number": "ACC003",
+      "type": 0,
+      "balance": 3000,
+      "status": "Activa",
+      "currency": 1,
+      "customerId": 2,
+      "bankId": 1,
+      "savingAccount": {
+        "savingType": 2
+      },
+      "currentAccount": null
+    }
+  ],
+  "currencies": [
+    {
+      "id": 1,
+      "name": "PYG",
+      "buyValue": "6500",
+      "sellValue": "6550"
+    },
+    {
+      "id": 2,
+      "name": "USD",
+      "buyValue": "0.0091",
+      "sellValue": "0.0092"
+    },
+    {
+      "id": 3,
+      "name": "EUR",
+      "buyValue": "1",
+      "sellValue": "1"
+    }
+  ],
+  "transfers": [
+    {
+      "id": 1,
+      "fromAccountId": 1,
+      "toAccountId": 3,
+      "amount": 500,
+      "currencyId": 1,
+      "description": "Pago de servicios",
+      "date": "2025-09-14T15:00:00",
+      "fromAccountHolder": "Ana Gómez",
+      "toAccountHolder": "Carlos Martínez"
+    },
+    {
+      "id": 2,
+      "fromAccountId": 2,
+      "toAccountId": 3,
+      "amount": 200,
+      "currencyId": 1,
+      "description": "Transferencia personal",
+      "date": "2025-09-13T10:30:00",
+      "fromAccountHolder": "Ana Gómez",
+      "toAccountHolder": "Carlos Martínez"
+    }
+  ]
+}
